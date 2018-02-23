@@ -1,0 +1,96 @@
+object session {;import org.scalaide.worksheet.runtime.library.WorksheetSupport._; def main(args: Array[String])=$execute{;$skip(60); 
+  println("Welcome to the Scala worksheet");$skip(9); val res$0 = 
+  
+  3+5;System.out.println("""res0: Int(8) = """ + $show(res$0));$skip(36); 
+  val a = Array("1", 2, true, 23.5);System.out.println("""a  : Array[Any] = """ + $show(a ));$skip(7); val res$1 = 
+  a(0);System.out.println("""res1: Any = """ + $show(res$1));$skip(7); val res$2 = 
+  a(2);System.out.println("""res2: Any = """ + $show(res$2));$skip(19); val res$3 = 
+  
+  a(2).getClass;System.out.println("""res3: Class[?0] = """ + $show(res$3));$skip(24); 
+  val b = a(2).getClass;System.out.println("""b  : Class[_] = """ + $show(b ));$skip(40); 
+  
+  val ClassofBool = classOf[Boolean];System.out.println("""ClassofBool  : Class[Boolean] = """ + $show(ClassofBool ));$skip(27); 
+  val c = (b==ClassofBool);System.out.println("""c  : Boolean = """ + $show(c ));$skip(35); 
+  
+  val d = (a(2) == ClassofBool);System.out.println("""d  : Boolean = """ + $show(d ));$skip(19); val res$4 = 
+  
+  a(2).toString;System.out.println("""res4: String = """ + $show(res$4));$skip(16); val res$5 = 
+  a(0).toString;System.out.println("""res5: String = """ + $show(res$5));$skip(19); 
+  
+  var count = 0;System.out.println("""count  : Int = """ + $show(count ));$skip(78); 
+  val what = a(2) match {
+      case n: Boolean =>  count += 1; count
+      };System.out.println("""what  : Int = """ + $show(what ));$skip(127); 
+      
+
+  def isBoolean(x: Any) : Int = x match {
+              case b: Boolean => 1
+              case _ => 0
+              };System.out.println("""isBoolean: (x: Any)Int""");$skip(41); 
+              
+  val e = isBoolean(a(2));System.out.println("""e  : Int = """ + $show(e ));$skip(28); 
+
+  val f  = isBoolean(a(0));System.out.println("""f  : Int = """ + $show(f ));$skip(50); 
+  
+  val na = a.map(isBoolean(_)).reduceLeft(_+_);System.out.println("""na  : Int = """ + $show(na ));$skip(97); 
+  
+  def countBoolean (a: Array[Any]): Int = {
+      a.map(isBoolean(_)).reduceLeft(_+_)
+      };System.out.println("""countBoolean: (a: Array[Any])Int""");$skip(70); 
+      
+  val nb = Array(true, 1.2, "good", 6, "false", false, "true");System.out.println("""nb  : Array[Any] = """ + $show(nb ));$skip(25); val res$6 = 
+  
+  
+  countBoolean(nb);System.out.println("""res6: Int = """ + $show(res$6));$skip(132); 
+  
+
+
+  def isBool(x: Any) : Boolean = x match {
+              case b: Boolean => true
+              case _ => false
+              };System.out.println("""isBool: (x: Any)Boolean""");$skip(75); 
+
+  def countBool (a: Array[Any]): Int = {
+      a.count(isBool(_))
+      };System.out.println("""countBool: (a: Array[Any])Int""");$skip(17); val res$7 = 
+
+  countBool(nb);System.out.println("""res7: Int = """ + $show(res$7));$skip(23); val res$8 = 
+
+  nb.count(isBool(_));System.out.println("""res8: Int = """ + $show(res$8));$skip(104); 
+  
+
+  def recur2(combiner: (Int => Int) => (Int => Int)) : (Int => Int) = combiner(recur2(combiner))(_);System.out.println("""recur2: (combiner: (Int => Int) => (Int => Int))Int => Int""");$skip(79); 
+  
+  def fact_comb2(f: Int => Int) = (n:Int) => (if (n <= 0) 1 else n*f(n-1) );System.out.println("""fact_comb2: (f: Int => Int)Int => Int""");$skip(38); 
+  
+  def fact2 = (recur2(fact_comb2));System.out.println("""fact2: => Int => Int""");$skip(14); val res$9 = 
+  
+  fact2(5);System.out.println("""res9: Int = """ + $show(res$9));$skip(167); 
+  
+  
+  // Problem 4
+  
+  def recur(baseVal: Int, combiner: (Int, Int=>Int) => (Int => Int)) : (Int => Int) =
+            combiner(baseVal,recur(baseVal,combiner))(_);System.out.println("""recur: (baseVal: Int, combiner: (Int, Int => Int) => Int => Int)Int => Int""");$skip(90); 
+  def fact_comb(baseVal: Int, f:Int=>Int) = (n: Int) => (if (n<=0) baseVal else n*f(n-1));System.out.println("""fact_comb: (baseVal: Int, f: Int => Int)Int => Int""");$skip(34); 
+  def fact = (recur(1,fact_comb));System.out.println("""fact: => Int => Int""");$skip(13); val res$10 = 
+  
+  fact(5);System.out.println("""res10: Int = """ + $show(res$10));$skip(97); 
+  
+  // Problem 5
+  
+  def deOptionize[T1, T2](f: T1  => T2)  = if (f == None) 1 else Some(f(_));System.out.println("""deOptionize: [T1, T2](f: T1 => T2)Any""");$skip(119); 
+  
+  def  ParseDigits(digits : String) : Option[Int] =
+     if (digits.matches("[0-9]*")) Some(digits.toInt) else None;System.out.println("""ParseDigits: (digits: String)Option[Int]""");$skip(25); val res$11 = 
+     
+  ParseDigits("9");System.out.println("""res11: Option[Int] = """ + $show(res$11));$skip(19); val res$12 = 
+  ParseDigits("a");System.out.println("""res12: Option[Int] = """ + $show(res$12))}
+
+  //def myfunc(x:String) = deOptionize(ParseDigits(x))
+  
+  //myfunc("a")
+
+
+
+}
